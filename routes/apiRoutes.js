@@ -23,7 +23,31 @@ module.exports= function(app){
             if (err) throw err;
         })
         res.json(noteData);
+        });
 
-    });
+    app.delete("/api/notes:id", function (req, res){
+        console.log("erase");
+        var deleteData = req.params.id;
+        console.log(deleteData)
+        for(i=0; i<noteData.length; i++){
+            if (deleteData === noteData[i].title){
+                noteData.splice(i, 1)
+            };
+        };
+        //parase data
+        let parsedata = JSON.stringify(noteData)
+        fs.writeFile(path.join('db.json'), parsedata, (err) => {
+            if (err) throw err;
 
-}
+
+        })
+
+        console.log(noteData)
+        res.json(noteData)
+
+    })}
+
+
+
+    
+
