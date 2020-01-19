@@ -1,0 +1,12 @@
+[
+    {
+        "title":"test title",
+        "body": "example body",
+        "journal": "asfjd;"
+    },
+    {
+        "title":"yet another test title",
+        "body": "wow look its another example body",
+        "journal": "asfjd; pt.2"
+    }
+]

@@ -1,3 +1,18 @@
+var $noteTitle = $(".note-title");
+var $noteText = $(".note-textarea");
+var $saveNoteBtn = $(".save-note");
+var $newNoteBtn = $(".new-note");
+var $noteList = $(".list-container .list-group");
+
+var activeNote ={};
+
+var getNotes = function(){
+  return $.ajax({
+    url:"/api/notes",
+    method: "GET"
+  });
+};
+
 var saveNote = function(note) {
     return $.ajax({
       url: "/api/notes",
@@ -9,20 +24,21 @@ var saveNote = function(note) {
   // A function for deleting a note from the db
   var deleteNote = function(id) {
     return $.ajax({
-      url: "api/notes/" + id,
+      url: "/api/notes/" + id,
       method: "DELETE"
     });
   };
   
-  // If there is an currentNote, display it, otherwise render empty inputs
-  var renderCurrentNote = function() {
+  // If there is an activeNote, display it, otherwise render empty inputs
+  var renderActiveNote = function() {
     $saveNoteBtn.hide();
-    console.log(currentNote);
-    if (currentNote.title) {
+
+    
+    if (activeNote.id) {
       $noteTitle.attr("readonly", true);
       $noteText.attr("readonly", true);
-      $noteTitle.val(currentNote.title);
-      $noteText.val(currentNote.text);
+      $noteTitle.val(activeNote.title);
+      $noteText.val(activeNote.text);
     } else {
       $noteTitle.attr("readonly", false);
       $noteText.attr("readonly", false);
@@ -40,7 +56,7 @@ var saveNote = function(note) {
   
     saveNote(newNote).then(function(data) {
       getAndRenderNotes();
-      renderCurrentNote();
+      renderActiveNote();
     });
   };
   
@@ -57,26 +73,24 @@ var saveNote = function(note) {
       console.log(note);
     
   
-    // if (currentNote.id === note.id) {
-    //   currentNote = {};
-    // }
+    
   
-    deleteNote(note.title).then(function() {
+    deleteNote(note.id).then(function() {
       getAndRenderNotes();
-      renderCurrentNote();
+      renderActiveNote();
     });
   };
   
   // Sets the note and displays it
   var handleNoteView = function() {
-    currentNote = $(this).data();
-    renderCurrentNote();
+    activeNote = $(this).data();
+    renderActiveNote();
   };
   
   // empty object 
   var handleNewNoteView = function() {
-    currentNote = {};
-    renderCurrentNote();
+    activeNote = {};
+    renderActiveNote();
   };
   
   // If/else for hiding the save button
