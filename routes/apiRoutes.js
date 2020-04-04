@@ -1,53 +1,36 @@
-
-const fs = require("fs")
-const path = require("path");
-
-var noteData;
+//linking the route to the JSON data
+let dbJson = require("../db/db");
 
 module.exports = function (app) {
-    fs.readFile("db.json", "utf8", function (err, data) {
-        if (err) throw err;
-        noteData = JSON.parse(data);
-    })
 
-    app.get("/api/notes", function (req, res) {
-       
-        res.json(noteData);
+
+    app.get("/api/notes", (req, res) => {
+        response.json(dbJSON);
     });
 
-
+//add new items to api
     app.post("/api/notes", function (req, res) {
-        console.log("test");
-        var newNote = req.body;
-        noteData.push(newNote);
-        let parsedata = JSON.stringify(noteData)
-        fs.writeFile(path.join('db.json'), parsedata, (err) => {
-            if (err) throw err;
-        })
-      
-        res.json(noteData);
+        console.log("Post Successful!");
+        console.log(reponse.req.body);
+        dbJSON.push(response.req.body);
+        response.end("yes");
+       
+    });
+//deleting items when icon is pressed
+    app.delete("/api/notes/:note", function (req, res) {
+        console.log("note deleted");
+        let newDbJSON = [];
+        const thisNoteId = request.params.note;
+        //getting the value of the collecton of notes
+        const noteToDelete = dbJSON.map(note => {
+            if (note.id !== thisNoteID) {
+                newDbJSON.push(note);
+            }
+        });
+
+    dbJSON = newDbJSON;
+
+    reponse.end();
     });
 
-    app.delete("/api/notes/:id", function (req, res) {
-        console.log("erase");
-        var deleteData = req.params.id;
-        
-        console.log(deleteData)
-        for (i=0; i<noteData.length; i++) {
-            
-            if (deleteData === noteData[i].title) {
-                noteData.splice(i, 1)
-            };
-        };
-        let parsedata = JSON.stringify(noteData)
-        
-        fs.writeFile(path.join('db.json'), parsedata, (err) => {
-           if (err) throw err;
-       })
-        console.log(noteData)
-        res.json(noteData)
-    })}
-
-
-    
-
+};

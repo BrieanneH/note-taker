@@ -1,19 +1,27 @@
-var path = require("path");
+// dependencies
+const path = require("path");
 
+//routes
 module.exports = function(app) {
+   // HTML GET requests
+   app.get("/notes", function(req, res) {
+      response.sendFile(path.join(__dirname, "../public/notes.html"));
+   });
 
-    app.get("/notes", function(req, res) {
-        res.sendFile(path.join(__dirname, "/notes.html"));
-    });
+   // connecting css
+   app.get("/assets/css/styles.css", function(req, res) {
+      response.sendFile(
+         path.join(__dirname, "../public/assets/css/styles.css")
+      );
+   });
 
-    app.get("../assets/js/index.js", function(req,res){
-        res.sendFile(path.join(__dirname, "/assets/js/index.js"))
-    });
-    app.get("../assets/css/styles.css", function(req,res){
-        res.sendFile(path.join(__dirname, "/assets/css/styles.css"))
-    });
+   // connecting JS
+   app.get("/assets/js/index.js", function(req, res) {
+      response.sendFile(path.join(__dirname, "../public/assets/js/index.js"));
+   });
 
-    app.get("*", function(req, res) {
-        res.sendFile(path.join(__dirname, "/index.html"));
-      });
-}
+   // Default to home page
+   app.get("*", function(req, res) {
+      response.sendFile(path.join(__dirname, "../public/index.html"));
+   });
+};
