@@ -11,7 +11,7 @@ module.exports = function(app) {
    // connecting css
    app.get("/assets/css/styles.css", function(req, res) {
       response.sendFile(
-         path.join(__dirname, "../public/assets/css/styles.css")
+         path.join(__dirname, "../public/assets/css/styles.css") 
       );
    });
 

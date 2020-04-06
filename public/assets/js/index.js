@@ -8,13 +8,15 @@ let activeNote ={};
 
 let noteID = 1;
 
-function getNotes(){
+//getting note from the db
+//change to let to know it'll only be used in this block
+let getNotes = function() {
   return $.ajax({
     url: "/api/notes",
     method: "GET"
   });
 }
-
+//saving said note
 function saveNote(note) {
     return $.ajax({
       url: "/api/notes",

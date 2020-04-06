@@ -1,5 +1,5 @@
 //linking the route to the JSON data
-let dbJson = require("../db/db");
+let dbJson = require("../db/db.json"); 
 
 module.exports = function (app) {
 
