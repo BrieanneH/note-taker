@@ -1,23 +1,43 @@
 //linking the route to the JSON data
-let dbJson = require("../db/db.json"); 
+const router =require("express").Router()
+const fs =require("fs")
+let notes = []
 
 module.exports = function (app) {
 
 
-    app.get("/api/notes", (req, res) => {
-        response.json(dbJSON);
+    router.get("/api/notes", (req, res) => {
+        fs.readFile("db/db.json", function(err,data){
+            notes = JSON.parse(data)
+            console.log(notes)
+            return res.json(notes);
+        }
     });
 
 //add new items to api
-    app.post("/api/notes", function (req, res) {
-        console.log("Post Successful!");
-        console.log(reponse.req.body);
-        dbJSON.push(response.req.body);
-        response.end("yes");
+    router.post("/api/notes", function (req, res) {
+
+        let newNote = req.body;
+        console.log("newNote", newNote)
+        let id =1
+        if(notes.length !==0){
+         id = notes[notes.length -1] + 1
+         }
+
+         newNote= {id,...newNote}
+         notes.push(newNote);
+
+        fs.writeFile('db/db.json', JSON.stringify(notes), (err)=>{
+            console.log('note completed!')
+
+            res.json(newNote);
+        })
        
     });
+
+
 //deleting items when icon is pressed
-    app.delete("/api/notes/:note", function (req, res) {
+    router.delete("/api/notes/:note", function (req, res) {
         console.log("note deleted");
         let newDbJSON = [];
         const thisNoteId = request.params.note;
