@@ -17,13 +17,23 @@ let getNotes = function() {
   });
 }
 //saving said note
-function saveNote(note) {
-    return $.ajax({
-      url: "/api/notes",
-      data: note,
-      method: "POST"
-    });
-  }
+var saveNote = function(note, activeID) {
+      if (activeID){
+        return $.ajax({
+          url: "/api/notes" + activeID,
+          data: note,
+          method: "PUT"
+      });
+    } else {
+      return $.ajax({
+        url: "/api/notes",
+        data: note,
+        method: "POST"
+
+      });
+    }
+};
+
   
   // A function for deleting a note from the db
   var deleteNote = function(id) {
@@ -51,21 +61,21 @@ function saveNote(note) {
     }
   };
   
-  // Get datasave it to the db and display the data
+  // Get data and save it to the db and display the data
   const handleNoteSave = function() {
 
     var newNote = {
       title: $noteTitle.val(),
       text: $noteText.val(),
-      id: noteID
+      //id: noteID
     };
 
-    noteID++;
+    
   
-    saveNote(newNote).then(function(data) {
+    saveNote(newNote, activeNote.id).then(function(data) {
       console.log("saved");
       getAndRenderNotes();
-      renderActiveNote();
+     
     });
   };
   
@@ -125,9 +135,9 @@ const renderNoteList = function(notes) {
   for (var i = 0; i < notes.length; i++) {
      var note = notes[i];
 
-     var $li = $(`<li class='list-group-item' data-note='${note.id}'>`).data(
-        note
-     );
+     var $li = $("<li class='list-group-item>").data( note)
+       
+     
      var $span = $("<span>").text(note.title);
      var $delBtn = $(
         "<i class='fas fa-trash-alt float-right text-danger delete-note'>"

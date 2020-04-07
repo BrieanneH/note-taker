@@ -11,7 +11,8 @@ module.exports = function (app) {
             notes = JSON.parse(data)
             console.log(notes)
             return res.json(notes);
-        }
+        })
+        
     });
 
 //add new items to api
@@ -37,20 +38,46 @@ module.exports = function (app) {
 
 
 //deleting items when icon is pressed
-    router.delete("/api/notes/:note", function (req, res) {
-        console.log("note deleted");
-        let newDbJSON = [];
-        const thisNoteId = request.params.note;
-        //getting the value of the collecton of notes
-        const noteToDelete = dbJSON.map(note => {
-            if (note.id !== thisNoteID) {
-                newDbJSON.push(note);
-            }
+    router.delete("/api/notes/:id", function (req, res) {
+        let id =parseInt(req.params.id)
+        console.log("deleted id", id);
+        let info = notes.filter(element => element.id !==id)
+
+        console.log(temp)
+        notes = info
+        fs.writeFile('db/db.json',JSON.stringify(notes), (err)=>{
+            console.log('success')
+            res.json(notes);
+
+        })
+
+        router.put("/api/notes/:id",function(req, res){
+            cosole.log(req.params)
+            let id = parseInt(req.params.id)
+
+            let info = notes.map(element =>{
+                if (element.id === id){
+                    element.title = req.body.title;
+                    element.text = req.body.text
+                }
+                return element
+            })
+
+            cosole.log(info)
+            notes = info
+
+            fs.writeFile('db/db.json', JSON.stringify(notes), (err)=>{
+                console.log('note succesfully written')
+                res.json(notes);
+            })
+
+
+
         });
 
-    dbJSON = newDbJSON;
 
-    reponse.end();
     });
 
 };
+
+module.exports = router 
