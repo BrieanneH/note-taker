@@ -10,9 +10,9 @@ const router = require("express").Router()
 
 
    // Default to home page
-   app.get("*", function(req, res) {
+   router.get("*", function(req, res) {
       response.sendFile(path.join(__dirname, "../public/index.html"));
    });
 
 
-module.exports 
+module.exports = router
