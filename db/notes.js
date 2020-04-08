@@ -14,7 +14,7 @@ class Notes{
     }
 
     write(note){
-        return writeFileAsync("db.db.json", "utf8");
+        return writeFileAsync("db/db.json", JSON.stringify);
     }
     getNotes(){
         console.log("getting notes")
@@ -35,7 +35,7 @@ class Notes{
     addNotes(note) {
         console.log("add notes");
         const {title, text} = note;
-        const newNote = {title, text, id: ++thisidDum}
+        const newNote = {title, text, id: ++this.idDum}
         return this.getNotes()
             .then(notes => [...notes, newNote])
             .then(updateNotes => this.write(updateNotes))

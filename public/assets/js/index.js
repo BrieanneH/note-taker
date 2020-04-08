@@ -146,13 +146,6 @@ const renderNoteList = function(notes) {
   $noteList.append(noteListItems);
 };
 
-// Gets notes from the db display on sidebar
-const getAndRenderNotes = function() {
-  return getNotes().then(function(data) {
-     console.log("rendered data successfully");
-     renderNoteList(data);
-  });
-};
 
 $saveNoteBtn.on("click", handleNoteSave);
 $noteList.on("click", ".list-group-item", handleNoteView);
@@ -161,5 +154,83 @@ $noteList.on("click", ".delete-note", handleNoteDelete);
 $noteTitle.on("keyup", handleRenderSaveBtn);
 $noteText.on("keyup", handleRenderSaveBtn);
 
+
+const activeNote={};
+
 // Gets and renders the initial list of notes
+var getNotes= function() {
+  return $.ajax({
+    url: "/api/notes",
+    method: "GET"
+  });
+};
+
+//saving
+var saveNote = function(note){
+  return$.ajax({
+    url: "/api/notes",
+    method: "POST"
+  });
+;}
+
+
+//delete
+
+var deleteNote=function(id){
+  return $.ajax({
+    url: "api/notes" + id,
+    method: "DELETE"
+  });
+};
+
+var renderActiveNote = function(){
+  $saveNoteBtn.hide();
+//show the note if active
+  if (activeNote.id){
+    $noteTitle.attr("readonly", true);
+    $noteText.attr("readonly", true);
+    $noteTitle.val(activeNote.title);
+    $noteText.val(activeNote.text);
+  }else{
+    $noteTitle.attr("readonly", false);
+    $noteText.attr("readonly", false);
+    $noteTitle.val("");
+    $noteText.val("");
+
+  }
+};
+
+var handleNoteSave = function(){
+  var newNote ={
+    title: $noteTitle.val();
+    text: $noteText.val()
+
+  };
+
+  saveNote(newNote).then(
+
+  )
+}
+
+
+//delete selected note
+
+
+
+
+//display active note
+
+
+
+//
+//change  current note to empty so the user can make a new note
+
+
+////bring back the note titles
+
+
+//bring note tot he sidebar for display
+
+
+
 getAndRenderNotes();
