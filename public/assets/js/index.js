@@ -6,7 +6,7 @@ const $noteList = $(".list-container .list-group");
 
 let activeNote ={};
 
-let noteID = 1;
+//let noteID = 1;
 
 //getting note from the db
 //change to let to know it'll only be used in this block
@@ -17,21 +17,16 @@ let getNotes = function() {
   });
 }
 //saving said note
-var saveNote = function(note, activeID) {
-      if (activeID){
+var saveNote = function(note) {
+     
         return $.ajax({
-          url: "/api/notes" + activeID,
+          url: "/api/notes" ,
           data: note,
-          method: "PUT"
-      });
-    } else {
-      return $.ajax({
-        url: "/api/notes",
-        data: note,
-        method: "POST"
+          method: "POST"
+
 
       });
-    }
+    
 };
 
   
@@ -72,9 +67,10 @@ var saveNote = function(note, activeID) {
 
     
   
-    saveNote(newNote, activeNote.id).then(function(data) {
+    saveNote(newNote).then(function(data) {
       console.log("saved");
       getAndRenderNotes();
+      renderActiveNote();
      
     });
   };
