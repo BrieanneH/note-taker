@@ -22,7 +22,7 @@ class Notes{
             console.log(notes)
             let notesArray;
             try {
-                notesArray = [].contact(JSON.parse(notes));
+                notesArray = [].concat(JSON.parse(notes));
             }
             catch(err) {
                 notesArray =[];
