@@ -207,29 +207,88 @@ var handleNoteSave = function(){
 
   };
 
-  saveNote(newNote).then(
+  saveNote(newNote).then(function(){
+    getAndRenderNotes();
+    renderActiveNote();
+  }
 
-  )
-}
+  );
+};
 
 
 //delete selected note
+
+var handleNoteDelete = function(){
+  var note =$(this)
+    .parent(".list-group-item")
+    .data();
+
+    if(activeNote.id=== note.id){
+      activeNote ={};
+    }
+
+    deleteNote(note.id).then(fuction(){
+      getAndRenderNotes();
+      renderActiveNote();
+    });
+
+};
 
 
 
 
 //display active note
+var handleNewNoteView = function(){
+  activeNote= $(this).data();
+  renderActiveNote();
+}
 
 
 
 //
 //change  current note to empty so the user can make a new note
+if ($noteTitle.val().trim( || $noteText.val().trim()){
+    $saveNoteBtn.show();
+}
+}
 
 
 ////bring back the note titles
+var renderNoteList = function(notes) {
+  $noteList.empt();
+
+
+  var noteListItems = [];
+
+  for (var i = 0; i < notes.length; i ++){
+    var note = notes[i];
+
+    var $li= $("<li class='list-group-item'>").data(note);
+    var $span =$("<span>").text(note.title);
+    var $delBtn = $( "<i class='fas fa-trash-alt float-right text-danger delete-note'>"
+
+    );
+
+    $li.append($span, $delBtn);
+    noteListItems.push($li);
+  }
+
+  $noteList.append(noteListItems);
+};
 
 
 //bring note tot he sidebar for display
+
+var getAndRenderNotes = function(){
+  return getNotes().then(function(data){
+    renderNoteList(data);
+  });
+};
+$noteTitle.on("keyup", handleRenderSaveBtn);
+$noteText.on("keyup", handleRenderSaveBtn);
+$noteList.on("click", ".list-group-item", handleNewNoteView);
+$noteList.on("click", ".delete-note", handleNoteDelete);
+$newNoteBtn.on("click", handleNewNoteView);
 
 
 

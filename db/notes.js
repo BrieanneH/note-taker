@@ -14,7 +14,7 @@ class Notes{
     }
 
     write(note){
-        return writeFileAsync("db/db.json", JSON.stringify);
+        return writeFileAsync("db/db.json", JSON.stringify(note))//needed to be more specific
     }
     getNotes(){
         console.log("getting notes")
@@ -49,4 +49,4 @@ class Notes{
         .then(updateNotes=> this.write(updateNotes))
     }
 }
-    module.exports = new Notes;
+    module.exports = new Notes();

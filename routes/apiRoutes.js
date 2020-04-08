@@ -14,14 +14,14 @@ const notes = require("../db/notes.js");
 
 
 
-        
-    });
+
+    })
 
 //add new items to api
     router.post("/notes", function (req, res) {
         notes.addNotes(req.body)
         .then(notes => res.json(notes))
-        .catch(err => res,status(500).json(err));
+        .catch(err => res.status(500).json(err));
 
      
      })
@@ -31,7 +31,7 @@ const notes = require("../db/notes.js");
 
 //deleting items when icon is pressed
     router.delete("/notes/:id", function (req, res) {
-       notes.removeNote(req.body)
+       notes.removeNote(req.params.id)
        .then(()=> res.json({ok: true}))
        .catch(err => res.status(500).json(err));
 
