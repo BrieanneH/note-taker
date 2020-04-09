@@ -1,7 +1,14 @@
+//when reworking on this app I used this article to get started again
+//https://medium.com/@nnamani.ezinne/simple-note-taking-app-using-node-js-and-ejs-4899321a3342
+//
+
 //dependencies 
 const express = require("express");
 const apiRoutes= require("./routes/apiRoutes.js");
 const htmlRoutes = require("./routes/htmlRoutes.js");
+//resolving my route problem with help of this stack overflow page:
+//https://stackoverflow.com/questions/34247468/node-error-cannot-find-module-routes
+
 
 //setting express 
 const app = express();
